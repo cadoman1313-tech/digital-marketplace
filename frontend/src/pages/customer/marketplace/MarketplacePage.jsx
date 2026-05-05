@@ -4,9 +4,11 @@ import { ProductCard } from '../../../components/marketplace/ProductCard.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { SectionHeader } from '../../../components/ui/SectionHeader.jsx';
-import { businesses, categories, products } from '../../../data/mockData.js';
+import { businesses, categories } from '../../../data/mockData.js';
+import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 
 export function MarketplacePage() {
+  const { marketplaceProducts } = useMarketplace();
   const topBusinesses = businesses.slice(0, 3);
 
   return (
@@ -38,7 +40,7 @@ export function MarketplacePage() {
         <section>
           <SectionHeader title="Fresh on MarketLane" description="Curated demo products with realistic seller details." />
           <div className="product-grid">
-            {products.map((product) => (
+            {marketplaceProducts.map((product) => (
               <ProductCard key={product.id} product={product} businesses={businesses} />
             ))}
           </div>

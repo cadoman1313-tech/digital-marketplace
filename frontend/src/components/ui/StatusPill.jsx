@@ -9,6 +9,7 @@ const statusLabels = {
   active: 'Active',
   draft: 'Draft',
   low: 'Low stock',
+  out: 'Out of stock',
 };
 
 export function StatusPill({ status }) {

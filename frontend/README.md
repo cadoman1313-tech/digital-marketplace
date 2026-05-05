@@ -1,13 +1,13 @@
 # Digital Marketplace Frontend
 
-First working React prototype for the Digital Marketplace project. The app uses local demo data only and does not connect to the PHP backend yet.
+Working React prototype for the Digital Marketplace project. The app uses local demo data and localStorage only; it does not connect to the PHP backend yet.
 
 ## Stack
 
 - React
 - React Router
 - Vite
-- Local mock data
+- Local mock data and localStorage state
 
 ```text
 frontend/
@@ -29,9 +29,14 @@ Planned page folders:
 ```text
 pages/
   landing/
-  auth/
+  buyer/
     login/
     register/
+    dashboard/
+  seller/
+    login/
+    register/
+    dashboard/
   customer/
     marketplace/
     product-details/
@@ -77,8 +82,12 @@ npm run preview
 ## Implemented Prototype Pages
 
 - Landing page
-- Login page
-- Register page
+- Buyer login page
+- Buyer register page
+- Buyer dashboard
+- Seller login page
+- Seller register page
+- Seller dashboard
 - Customer marketplace page
 - Product details page
 - Cart page
@@ -88,3 +97,36 @@ npm run preview
 - Product management page
 - Business order management page
 - Admin dashboard
+
+## Key Frontend Features
+
+- Role-aware navigation for guest, buyer, seller, and admin preview modes.
+- Clear links for buyer login/register, seller login/register, marketplace, cart, and seller dashboard.
+- Add to Cart updates React state immediately.
+- Cart count updates in the header.
+- Cart contents, item count, subtotal, delivery estimate, and total are calculated dynamically.
+- Cart quantity controls support increase, decrease, remove, clear cart, and empty state.
+- Cart state persists in localStorage after refresh.
+- Seller profile and seller product stock are managed locally with localStorage.
+- Seller dashboard supports business bio, contact details, image placeholder or URL, product add/edit/delete, stock levels, and seller order rows.
+- Buyer dashboard shows profile summary, recent orders, saved products, and a continue shopping action.
+
+## Main Routes
+
+```text
+/                         Landing page
+/marketplace              Customer marketplace
+/products/:productId      Product details
+/cart                     Cart
+/orders                   Customer orders
+/buyer/login              Buyer login
+/buyer/register           Buyer registration
+/buyer/dashboard          Buyer dashboard
+/seller/login             Seller login
+/seller/register          Seller registration
+/seller/dashboard         Seller dashboard
+/business/profile         Seller profile editor
+/business/products        Seller product management
+/business/orders          Seller order management
+/admin                    Admin dashboard
+```

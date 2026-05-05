@@ -193,10 +193,25 @@ export const products = [
   },
 ];
 
-export const cartItems = [
-  { productId: 'seasonal-market-box', quantity: 1 },
-  { productId: 'heritage-sourdough', quantity: 2 },
-  { productId: 'weekly-stem-bundle', quantity: 1 },
+export const buyerProfiles = [
+  {
+    id: 'buyer-nomsa',
+    name: 'Nomsa Dlamini',
+    email: 'nomsa@example.com',
+    location: 'Rosebank, Johannesburg',
+    memberSince: 'March 2026',
+    savedProductIds: ['seasonal-market-box', 'weekly-stem-bundle', 'linen-table-runner'],
+  },
+];
+
+export const sellerAccounts = [
+  {
+    id: 'seller-golden-hour',
+    name: 'Theo Jacobs',
+    email: 'theo@goldenhour.local',
+    businessId: 'golden-hour-bakery',
+    role: 'Owner',
+  },
 ];
 
 export const customerOrders = [

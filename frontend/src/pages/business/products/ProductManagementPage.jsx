@@ -4,11 +4,11 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { SectionHeader } from '../../../components/ui/SectionHeader.jsx';
 import { StatusPill } from '../../../components/ui/StatusPill.jsx';
-import { businesses, products } from '../../../data/mockData.js';
+import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 import { formatCurrency } from '../../../utils/formatters.js';
 
 export function ProductManagementPage() {
-  const businessProducts = products.filter((product) => product.businessId === businesses[1].id);
+  const { deleteSellerProduct, sellerProducts } = useMarketplace();
 
   return (
     <DashboardShell>
@@ -17,7 +17,11 @@ export function ProductManagementPage() {
           eyebrow="Product management"
           title="Keep listings fresh and easy to buy."
           description="A clean operational view for prices, stock, and product status."
-          action={<Button icon={<Plus size={18} />}>Add product</Button>}
+          action={
+            <Button icon={<Plus size={18} />} to="/seller/dashboard">
+              Add product
+            </Button>
+          }
         />
 
         <section className="table-panel">
@@ -33,7 +37,7 @@ export function ProductManagementPage() {
               </tr>
             </thead>
             <tbody>
-              {businessProducts.map((product) => (
+              {sellerProducts.map((product) => (
                 <tr key={product.id}>
                   <td>
                     <strong>{product.name}</strong>
@@ -46,7 +50,14 @@ export function ProductManagementPage() {
                     <StatusPill status={product.stock <= 6 ? 'low' : 'active'} />
                   </td>
                   <td>
-                    <Button variant="ghost">Edit</Button>
+                    <div className="table-actions">
+                      <Button to="/seller/dashboard" variant="ghost">
+                        Edit
+                      </Button>
+                      <Button onClick={() => deleteSellerProduct(product.id)} variant="ghost">
+                        Delete
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -54,10 +65,19 @@ export function ProductManagementPage() {
           </table>
         </section>
 
-        <EmptyState
-          title="No draft products"
-          description="Products saved as drafts will appear here before they are published to the marketplace."
-        />
+        {sellerProducts.length === 0 ? (
+          <EmptyState
+            actionLabel="Add product"
+            actionTo="/seller/dashboard"
+            title="No products yet"
+            description="Add your first product from the seller dashboard."
+          />
+        ) : (
+          <EmptyState
+            title="No draft products"
+            description="Products saved as drafts will appear here before they are published to the marketplace."
+          />
+        )}
       </div>
     </DashboardShell>
   );

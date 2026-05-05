@@ -1,6 +1,13 @@
-# Frontend Structure
+# Digital Marketplace Frontend
 
-React application files will live here. The project has not been scaffolded into a runnable app yet; this folder currently defines the intended structure for future implementation.
+First working React prototype for the Digital Marketplace project. The app uses local demo data only and does not connect to the PHP backend yet.
+
+## Stack
+
+- React
+- React Router
+- Vite
+- Local mock data
 
 ```text
 frontend/
@@ -40,3 +47,44 @@ pages/
 ```
 
 Use the rules in `../docs/design-system.md` before building any page.
+
+## Run Locally
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Implemented Prototype Pages
+
+- Landing page
+- Login page
+- Register page
+- Customer marketplace page
+- Product details page
+- Cart page
+- Customer orders page
+- Business owner dashboard
+- Business profile page
+- Product management page
+- Business order management page
+- Admin dashboard

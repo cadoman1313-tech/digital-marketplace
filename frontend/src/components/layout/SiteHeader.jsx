@@ -1,4 +1,4 @@
-import { Menu, ShoppingBag, Store, UserRound } from 'lucide-react';
+import { ChevronDown, Menu, ShoppingBag, Store, UserRound } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useMarketplace } from '../../state/MarketplaceContext.jsx';
@@ -13,21 +13,17 @@ const roleLabels = {
 
 const commonLinks = [
   { to: '/marketplace', label: 'Marketplace' },
-  { to: '/seller/dashboard', label: 'Seller Dashboard' },
+  { to: '/sellers', label: 'Sellers' },
 ];
 
 const roleLinks = {
-  guest: [
-    { to: '/buyer/login', label: 'Buyer Login' },
-    { to: '/buyer/register', label: 'Buyer Register' },
-    { to: '/seller/login', label: 'Seller Login' },
-    { to: '/seller/register', label: 'Seller Register' },
-  ],
+  guest: [],
   buyer: [
     { to: '/buyer/dashboard', label: 'Buyer Dashboard' },
     { to: '/orders', label: 'Orders' },
   ],
   seller: [
+    { to: '/seller/dashboard', label: 'Seller Dashboard' },
     { to: '/business/products', label: 'Products' },
     { to: '/business/orders', label: 'Seller Orders' },
   ],
@@ -64,27 +60,38 @@ export function SiteHeader() {
         </nav>
 
         <div className="site-header__actions">
-          <div className="role-switcher" aria-label="Preview user type">
-            {Object.keys(roleLabels).map((role) => (
-              <button
-                className={activeRole === role ? 'is-active' : ''}
-                key={role}
-                onClick={() => chooseRole(role)}
-                type="button"
-              >
-                {roleLabels[role]}
-              </button>
-            ))}
-          </div>
           <Button to="/cart" variant="ghost" icon={<ShoppingBag size={18} />}>
             <span className="cart-label">
               Cart
               <span className="cart-count">{cartItemCount}</span>
             </span>
           </Button>
-          <Button to="/buyer/login" variant="secondary" icon={<UserRound size={18} />}>
-            Buyer Login
-          </Button>
+          <details className="account-menu">
+            <summary>
+              <UserRound size={18} />
+              <span>{roleLabels[activeRole]}</span>
+              <ChevronDown size={15} />
+            </summary>
+            <div className="account-menu__panel">
+              <span className="account-menu__label">Preview as</span>
+              <div className="role-switcher" aria-label="Preview user type">
+                {Object.keys(roleLabels).map((role) => (
+                  <button
+                    className={activeRole === role ? 'is-active' : ''}
+                    key={role}
+                    onClick={() => chooseRole(role)}
+                    type="button"
+                  >
+                    {roleLabels[role]}
+                  </button>
+                ))}
+              </div>
+              <NavLink to="/buyer/login">Buyer Login</NavLink>
+              <NavLink to="/buyer/register">Buyer Register</NavLink>
+              <NavLink to="/seller/login">Seller Login</NavLink>
+              <NavLink to="/seller/register">Seller Register</NavLink>
+            </div>
+          </details>
           <Button to="/seller/register" icon={<Store size={18} />}>
             Sell
           </Button>
@@ -110,6 +117,7 @@ export function SiteHeader() {
               </NavLink>
             ))}
           </nav>
+          <span className="account-menu__label">Preview as</span>
           <div className="role-switcher role-switcher--mobile" aria-label="Preview user type">
             {Object.keys(roleLabels).map((role) => (
               <button
@@ -132,8 +140,14 @@ export function SiteHeader() {
             <Button to="/buyer/login" variant="secondary" icon={<UserRound size={18} />} onClick={closeMenu}>
               Buyer Login
             </Button>
+            <Button to="/buyer/register" variant="ghost" onClick={closeMenu}>
+              Buyer Register
+            </Button>
+            <Button to="/seller/login" variant="secondary" onClick={closeMenu}>
+              Seller Login
+            </Button>
             <Button to="/seller/register" icon={<Store size={18} />} onClick={closeMenu}>
-              Sell
+              Seller Register
             </Button>
           </div>
         </div>

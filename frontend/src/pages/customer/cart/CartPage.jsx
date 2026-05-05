@@ -1,4 +1,4 @@
-import { ArrowRight, Minus, Plus, Trash2 } from 'lucide-react';
+import { ArrowRight, CreditCard, Minus, Plus, Trash2 } from 'lucide-react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
@@ -97,10 +97,13 @@ export function CartPage() {
               </div>
             </dl>
             <p>
-              Checkout is intentionally paused in this prototype until the backend
-              and payment flow are connected.
+              Continue to a frontend-only checkout with demo payment options and
+              no real payment processing.
             </p>
-            <Button to="/marketplace" icon={<ArrowRight size={18} />}>
+            <Button to="/checkout" icon={<CreditCard size={18} />}>
+              Go to checkout
+            </Button>
+            <Button to="/marketplace" variant="secondary" icon={<ArrowRight size={18} />}>
               Continue shopping
             </Button>
             <Button onClick={clearCart} variant="ghost">
@@ -113,8 +116,8 @@ export function CartPage() {
       {cartItems.length > 0 ? (
         <section className="cart-note">
           <EmptyState
-            title="Checkout coming later"
-            description="The cart now behaves like a real cart, while order placement will wait for the PHP backend integration."
+            title="Demo checkout only"
+            description="The checkout creates a mock order in localStorage and clears the cart without connecting to any real payment provider."
           />
         </section>
       ) : null}

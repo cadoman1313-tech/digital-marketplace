@@ -27,12 +27,15 @@ frontend/
 Planned page folders:
 
 ```text
-pages/
-  landing/
-  buyer/
+  pages/
+    landing/
+    checkout/
+    buyer/
     login/
     register/
     dashboard/
+    list/
+    profile/
   seller/
     login/
     register/
@@ -88,9 +91,13 @@ npm run preview
 - Seller login page
 - Seller register page
 - Seller dashboard
+- Seller directory
+- Seller storefront profile page
 - Customer marketplace page
 - Product details page
 - Cart page
+- Checkout page
+- Order success page
 - Customer orders page
 - Business owner dashboard
 - Business profile page
@@ -107,6 +114,11 @@ npm run preview
 - Cart contents, item count, subtotal, delivery estimate, and total are calculated dynamically.
 - Cart quantity controls support increase, decrease, remove, clear cart, and empty state.
 - Cart state persists in localStorage after refresh.
+- Marketplace browsing supports category filters, product/seller/category search, and sorting by newest, price, or rating.
+- Expanded mock catalog includes 48 products across Fresh Produce, Handmade Crafts, Clothing, Beauty & Skincare, Food & Snacks, Electronics Accessories, Home Goods, and Art & Decor.
+- Seller storefront pages include profile details, cover area, owner, contact placeholders, operating hours, rating, completed orders, fulfillment options, and seller product grids.
+- Frontend-only checkout supports delivery/pickup, buyer details, demo card fields, demo mobile money fields, cash on delivery, and cash on pickup.
+- Placing an order creates a mock localStorage order, clears the cart, and routes to an order success screen.
 - Seller profile and seller product stock are managed locally with localStorage.
 - Seller dashboard supports business bio, contact details, image placeholder or URL, product add/edit/delete, stock levels, and seller order rows.
 - Buyer dashboard shows profile summary, recent orders, saved products, and a continue shopping action.
@@ -118,6 +130,8 @@ npm run preview
 /marketplace              Customer marketplace
 /products/:productId      Product details
 /cart                     Cart
+/checkout                 Frontend-only checkout and demo payment
+/order-success            Mock order success
 /orders                   Customer orders
 /buyer/login              Buyer login
 /buyer/register           Buyer registration
@@ -125,6 +139,8 @@ npm run preview
 /seller/login             Seller login
 /seller/register          Seller registration
 /seller/dashboard         Seller dashboard
+/seller/:sellerId         Seller storefront profile
+/sellers                  Seller directory
 /business/profile         Seller profile editor
 /business/products        Seller product management
 /business/orders          Seller order management

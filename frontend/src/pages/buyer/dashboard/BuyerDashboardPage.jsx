@@ -4,13 +4,13 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { SectionHeader } from '../../../components/ui/SectionHeader.jsx';
 import { StatusPill } from '../../../components/ui/StatusPill.jsx';
-import { businesses, buyerProfiles, customerOrders, products } from '../../../data/mockData.js';
+import { businesses, buyerProfiles, products } from '../../../data/mockData.js';
 import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 import { formatCurrency, getBusiness } from '../../../utils/formatters.js';
 
 export function BuyerDashboardPage() {
   const buyer = buyerProfiles[0];
-  const { cartItemCount } = useMarketplace();
+  const { cartItemCount, orders } = useMarketplace();
   const savedProducts = buyer.savedProductIds
     .map((productId) => products.find((product) => product.id === productId))
     .filter(Boolean);
@@ -50,7 +50,7 @@ export function BuyerDashboardPage() {
             </div>
             <div>
               <dt>Recent orders</dt>
-              <dd>{customerOrders.length}</dd>
+              <dd>{orders.length}</dd>
             </div>
             <div>
               <dt>Saved products</dt>
@@ -67,15 +67,16 @@ export function BuyerDashboardPage() {
           description="Demo buyer orders show how order status can stay readable without a heavy dashboard feel."
         />
         <div className="order-stack">
-          {customerOrders.slice(0, 2).map((order) => {
-            const business = getBusiness(businesses, order.businessId);
+          {orders.slice(0, 2).map((order) => {
+            const business = getBusiness(businesses, order.sellerId) || { name: order.sellerName || 'Multiple sellers' };
+            const itemSummary = order.items.map((item) => `${item.quantity} x ${item.productName}`).join(', ');
 
             return (
               <article className="order-card" key={order.id}>
                 <div>
                   <span>{order.id}</span>
                   <h2>{business.name}</h2>
-                  <p>{order.items.join(', ')}</p>
+                  <p>{itemSummary}</p>
                 </div>
                 <div className="order-card__meta">
                   <StatusPill status={order.status} />

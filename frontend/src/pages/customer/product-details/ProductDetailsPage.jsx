@@ -15,7 +15,8 @@ export function ProductDetailsPage() {
   const [addedMessage, setAddedMessage] = useState('');
   const { addToCart, marketplaceProducts } = useMarketplace();
   const product = getProduct(marketplaceProducts, productId) || marketplaceProducts[0];
-  const business = getBusiness(businesses, product.businessId);
+  const business = getBusiness(businesses, product.sellerId || product.businessId);
+  const availability = product.availabilityStatus || product.availability || 'Available';
   const related = marketplaceProducts
     .filter((item) => item.category === product.category && item.id !== product.id)
     .slice(0, 3);
@@ -40,7 +41,13 @@ export function ProductDetailsPage() {
           <p>{product.description}</p>
           <div className="product-detail__price-row">
             <strong>{formatCurrency(product.price)}</strong>
-            {product.stock <= 6 ? <StatusPill status="low" /> : <span>{product.stock} available</span>}
+            {availability === 'Out of stock' ? (
+              <StatusPill status="out" />
+            ) : product.stock <= 6 ? (
+              <StatusPill status="low" />
+            ) : (
+              <span>{product.stock} available</span>
+            )}
           </div>
           <div className="tag-row">
             {product.tags.map((tag) => (
@@ -64,6 +71,7 @@ export function ProductDetailsPage() {
           </div>
           <div className="button-row">
             <Button
+              disabled={availability === 'Out of stock' || product.stock <= 0}
               icon={<ShoppingBag size={18} />}
               onClick={() => {
                 addToCart(product.id, quantity);
@@ -82,7 +90,7 @@ export function ProductDetailsPage() {
           {addedMessage ? <p className="cart-feedback">{addedMessage}</p> : null}
           <div className="seller-panel">
             <BusinessBadge business={business} />
-            <p>{business.description}</p>
+            <p>{business.bio}</p>
           </div>
         </div>
       </section>

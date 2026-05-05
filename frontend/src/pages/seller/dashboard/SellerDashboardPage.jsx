@@ -8,7 +8,6 @@ import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { MetricCard } from '../../../components/ui/MetricCard.jsx';
 import { SectionHeader } from '../../../components/ui/SectionHeader.jsx';
 import { StatusPill } from '../../../components/ui/StatusPill.jsx';
-import { businessOrders } from '../../../data/mockData.js';
 import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 import { formatCurrency } from '../../../utils/formatters.js';
 
@@ -33,6 +32,7 @@ function getStockStatus(product) {
 export function SellerDashboardPage() {
   const {
     deleteSellerProduct,
+    orders,
     saveSellerProduct,
     sellerProducts,
     sellerProfile,
@@ -45,6 +45,11 @@ export function SellerDashboardPage() {
   const lowStockCount = sellerProducts.filter((product) => Number(product.stock) <= 5).length;
   const activeProducts = sellerProducts.filter((product) => product.availability === 'Available').length;
   const totalStock = sellerProducts.reduce((sum, product) => sum + Number(product.stock || 0), 0);
+  const sellerOrders = orders.filter(
+    (order) =>
+      order.sellerId === 'golden-hour-bakery' ||
+      order.sellerGroups?.some((group) => group.sellerId === 'golden-hour-bakery'),
+  );
 
   const handleProfileChange = (event) => {
     const { name, value } = event.target;
@@ -100,7 +105,7 @@ export function SellerDashboardPage() {
           <MetricCard label="Active products" value={activeProducts} detail="Available to customers" tone="green" />
           <MetricCard label="Low stock" value={lowStockCount} detail="Needs attention soon" tone="gold" />
           <MetricCard label="Total units" value={totalStock} detail="Across all products" tone="blue" />
-          <MetricCard label="Open orders" value="3" detail="Ready for seller action" />
+          <MetricCard label="Open orders" value={sellerOrders.length} detail="Ready for seller action" />
         </div>
 
         <section className="seller-profile-grid">
@@ -332,7 +337,7 @@ export function SellerDashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {businessOrders.map((order) => (
+              {sellerOrders.map((order) => (
                 <OrderRow key={order.id} actionLabel="Update" order={order} />
               ))}
             </tbody>

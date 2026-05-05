@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { businesses, products } from '../data/mockData.js';
+import { businesses, demoOrders, products } from '../data/mockData.js';
 import { getProduct } from '../utils/formatters.js';
 
 const MarketplaceContext = createContext(null);
@@ -8,17 +8,19 @@ const CART_STORAGE_KEY = 'marketlane-cart';
 const ROLE_STORAGE_KEY = 'marketlane-role';
 const SELLER_PROFILE_STORAGE_KEY = 'marketlane-seller-profile';
 const SELLER_PRODUCTS_STORAGE_KEY = 'marketlane-seller-products';
+const ORDERS_STORAGE_KEY = 'marketlane-orders';
+const LAST_ORDER_STORAGE_KEY = 'marketlane-last-order';
 
 const sellerBusiness = businesses.find((business) => business.id === 'golden-hour-bakery');
 
 const defaultSellerProfile = {
   businessName: sellerBusiness.name,
   category: sellerBusiness.category,
-  owner: sellerBusiness.owner,
+  owner: sellerBusiness.ownerName,
   email: sellerBusiness.email,
   phone: sellerBusiness.phone,
-  address: sellerBusiness.address,
-  bio: sellerBusiness.description,
+  address: sellerBusiness.location,
+  bio: sellerBusiness.bio,
   image: '',
 };
 
@@ -60,11 +62,15 @@ export function MarketplaceProvider({ children }) {
   const [sellerProducts, setSellerProducts] = useState(() =>
     readStorage(SELLER_PRODUCTS_STORAGE_KEY, defaultSellerProducts),
   );
+  const [orders, setOrders] = useState(() => readStorage(ORDERS_STORAGE_KEY, demoOrders));
+  const [lastOrder, setLastOrder] = useState(() => readStorage(LAST_ORDER_STORAGE_KEY, null));
 
   useEffect(() => writeStorage(ROLE_STORAGE_KEY, activeRole), [activeRole]);
   useEffect(() => writeStorage(CART_STORAGE_KEY, cart), [cart]);
   useEffect(() => writeStorage(SELLER_PROFILE_STORAGE_KEY, sellerProfile), [sellerProfile]);
   useEffect(() => writeStorage(SELLER_PRODUCTS_STORAGE_KEY, sellerProducts), [sellerProducts]);
+  useEffect(() => writeStorage(ORDERS_STORAGE_KEY, orders), [orders]);
+  useEffect(() => writeStorage(LAST_ORDER_STORAGE_KEY, lastOrder), [lastOrder]);
 
   const marketplaceProducts = useMemo(
     () => [
@@ -131,6 +137,57 @@ export function MarketplaceProvider({ children }) {
 
   const clearCart = () => setCart([]);
 
+  const createMockOrder = ({ buyer, fulfillment, paymentMethod }) => {
+    const orderNumber = `ML-${Date.now().toString().slice(-6)}`;
+    const today = new Date().toISOString().slice(0, 10);
+    const sellerGroups = cartItems.reduce((groups, item) => {
+      const sellerId = item.product.sellerId || item.product.businessId;
+      const seller = businesses.find((business) => business.id === sellerId);
+      const existing = groups[sellerId] || {
+        sellerId,
+        sellerName: seller?.name || item.product.sellerName || 'Local seller',
+        items: [],
+        total: 0,
+      };
+
+      existing.items.push({
+        productId: item.productId,
+        productName: item.product.name,
+        quantity: item.quantity,
+        unitPrice: item.product.price,
+      });
+      existing.total += item.product.price * item.quantity;
+      groups[sellerId] = existing;
+      return groups;
+    }, {});
+
+    const order = {
+      id: orderNumber,
+      buyerId: 'buyer-local-demo',
+      buyerName: buyer.name,
+      buyerEmail: buyer.email,
+      buyerPhone: buyer.phone,
+      status: 'new',
+      orderDate: today,
+      placedAt: 'Just now',
+      fulfillment,
+      paymentMethod,
+      total: cartSubtotal + (fulfillment === 'Delivery' ? 55 : 0),
+      items: cartItems.map((item) => ({
+        productId: item.productId,
+        productName: item.product.name,
+        quantity: item.quantity,
+        unitPrice: item.product.price,
+      })),
+      sellerGroups: Object.values(sellerGroups),
+    };
+
+    setOrders((current) => [order, ...current]);
+    setLastOrder(order);
+    clearCart();
+    return order;
+  };
+
   const updateSellerProfile = (updates) => {
     setSellerProfile((current) => ({ ...current, ...updates }));
   };
@@ -149,9 +206,12 @@ export function MarketplaceProvider({ children }) {
         {
           id,
           businessId: sellerBusiness.id,
+          sellerId: sellerBusiness.id,
+          sellerName: sellerBusiness.name,
           rating: 4.8,
           featured: false,
           tags: ['Seller managed'],
+          availabilityStatus: productInput.availability || 'Available',
           ...productInput,
         },
         ...current,
@@ -171,8 +231,11 @@ export function MarketplaceProvider({ children }) {
       cartItems,
       cartSubtotal,
       clearCart,
+      createMockOrder,
       deleteSellerProduct,
+      lastOrder,
       marketplaceProducts,
+      orders,
       removeFromCart,
       saveSellerProduct,
       sellerProducts,
@@ -187,6 +250,8 @@ export function MarketplaceProvider({ children }) {
       cartItems,
       cartSubtotal,
       marketplaceProducts,
+      orders,
+      lastOrder,
       sellerProducts,
       sellerProfile,
     ],

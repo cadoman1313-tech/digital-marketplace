@@ -2,9 +2,11 @@ import { DashboardShell } from '../../../components/layout/DashboardShell.jsx';
 import { OrderRow } from '../../../components/marketplace/OrderRow.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
 import { SectionHeader } from '../../../components/ui/SectionHeader.jsx';
-import { businessOrders } from '../../../data/mockData.js';
+import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 
 export function BusinessOrderManagementPage() {
+  const { orders } = useMarketplace();
+
   return (
     <DashboardShell>
       <div className="workspace-page">
@@ -35,7 +37,7 @@ export function BusinessOrderManagementPage() {
               </tr>
             </thead>
             <tbody>
-              {businessOrders.map((order) => (
+              {orders.map((order) => (
                 <OrderRow key={order.id} order={order} />
               ))}
             </tbody>

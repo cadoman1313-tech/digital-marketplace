@@ -1,10 +1,22 @@
+import { useState } from 'react';
 import { Button } from '../../../components/ui/Button.jsx';
 import { DashboardShell } from '../../../components/layout/DashboardShell.jsx';
 import { TextField } from '../../../components/forms/TextField.jsx';
-import { businesses } from '../../../data/mockData.js';
+import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 
 export function BusinessProfilePage() {
-  const business = businesses[1];
+  const { sellerProfile, updateSellerProfile } = useMarketplace();
+  const [draft, setDraft] = useState(sellerProfile);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDraft((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    updateSellerProfile(draft);
+  };
 
   return (
     <DashboardShell>
@@ -12,28 +24,34 @@ export function BusinessProfilePage() {
         <section className="profile-layout">
           <div>
             <span className="eyebrow">Business profile</span>
-            <h1>{business.name}</h1>
-            <p>{business.description}</p>
+            <h1>{sellerProfile.businessName}</h1>
+            <p>{sellerProfile.bio}</p>
             <div className="profile-preview">
-              <img src={business.image} alt={business.name} />
+              {sellerProfile.image ? (
+                <img src={sellerProfile.image} alt={sellerProfile.businessName} />
+              ) : (
+                <div className="image-placeholder">Business profile image</div>
+              )}
               <div>
-                <strong>{business.name}</strong>
-                <span>{business.category} in {business.city}</span>
+                <strong>{sellerProfile.businessName}</strong>
+                <span>{sellerProfile.category}</span>
               </div>
             </div>
           </div>
 
-          <form className="profile-form">
-            <TextField label="Business name" name="businessName" defaultValue={business.name} />
-            <TextField label="Category" name="category" defaultValue={business.category} />
-            <TextField label="Public email" name="email" type="email" defaultValue={business.email} />
-            <TextField label="Phone" name="phone" defaultValue={business.phone} />
-            <TextField label="Address" name="address" defaultValue={business.address} />
+          <form className="profile-form" onSubmit={handleSubmit}>
+            <TextField label="Business name" name="businessName" onChange={handleChange} value={draft.businessName} />
+            <TextField label="Category" name="category" onChange={handleChange} value={draft.category} />
+            <TextField label="Public email" name="email" onChange={handleChange} type="email" value={draft.email} />
+            <TextField label="Phone" name="phone" onChange={handleChange} value={draft.phone} />
+            <TextField label="Address" name="address" onChange={handleChange} value={draft.address} />
+            <TextField label="Profile image URL" name="image" onChange={handleChange} value={draft.image} />
             <TextField
               label="Store description"
-              name="description"
+              name="bio"
+              onChange={handleChange}
               textarea
-              defaultValue={business.description}
+              value={draft.bio}
             />
             <div className="button-row">
               <Button type="submit">Save profile</Button>

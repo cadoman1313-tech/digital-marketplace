@@ -2,7 +2,7 @@ import { ClipboardList, LayoutDashboard, Package, Settings, ShieldCheck, Store }
 import { NavLink } from 'react-router-dom';
 
 const businessLinks = [
-  { to: '/business', label: 'Overview', icon: LayoutDashboard },
+  { to: '/seller/dashboard', label: 'Overview', icon: LayoutDashboard },
   { to: '/business/profile', label: 'Profile', icon: Store },
   { to: '/business/products', label: 'Products', icon: Package },
   { to: '/business/orders', label: 'Orders', icon: ClipboardList },

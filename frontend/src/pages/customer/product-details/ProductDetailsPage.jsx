@@ -1,17 +1,22 @@
 import { ArrowRight, ShoppingBag, Store } from 'lucide-react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { BusinessBadge } from '../../../components/marketplace/BusinessBadge.jsx';
 import { ProductCard } from '../../../components/marketplace/ProductCard.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { StatusPill } from '../../../components/ui/StatusPill.jsx';
-import { businesses, products } from '../../../data/mockData.js';
+import { businesses } from '../../../data/mockData.js';
+import { useMarketplace } from '../../../state/MarketplaceContext.jsx';
 import { formatCurrency, getBusiness, getProduct } from '../../../utils/formatters.js';
 
 export function ProductDetailsPage() {
   const { productId } = useParams();
-  const product = getProduct(products, productId) || products[0];
+  const [quantity, setQuantity] = useState(1);
+  const [addedMessage, setAddedMessage] = useState('');
+  const { addToCart, marketplaceProducts } = useMarketplace();
+  const product = getProduct(marketplaceProducts, productId) || marketplaceProducts[0];
   const business = getBusiness(businesses, product.businessId);
-  const related = products
+  const related = marketplaceProducts
     .filter((item) => item.category === product.category && item.id !== product.id)
     .slice(0, 3);
 
@@ -23,7 +28,11 @@ export function ProductDetailsPage() {
 
       <section className="product-detail">
         <div className="product-detail__media">
-          <img src={product.image} alt={product.name} />
+          {product.image ? (
+            <img src={product.image} alt={product.name} />
+          ) : (
+            <div className="image-placeholder">Product image placeholder</div>
+          )}
         </div>
         <div className="product-detail__content">
           <span className="eyebrow">{product.category}</span>
@@ -38,14 +47,39 @@ export function ProductDetailsPage() {
               <span key={tag}>{tag}</span>
             ))}
           </div>
+          <div className="quantity-picker" aria-label="Quantity">
+            <button
+              onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+              type="button"
+            >
+              -
+            </button>
+            <span>{quantity}</span>
+            <button
+              onClick={() => setQuantity((current) => Math.min(product.stock, current + 1))}
+              type="button"
+            >
+              +
+            </button>
+          </div>
           <div className="button-row">
-            <Button to="/cart" icon={<ShoppingBag size={18} />}>
+            <Button
+              icon={<ShoppingBag size={18} />}
+              onClick={() => {
+                addToCart(product.id, quantity);
+                setAddedMessage(`${quantity} item${quantity > 1 ? 's' : ''} added to cart.`);
+              }}
+            >
               Add to cart
+            </Button>
+            <Button to="/cart" variant="ghost">
+              View cart
             </Button>
             <Button variant="secondary" icon={<Store size={18} />}>
               View storefront
             </Button>
           </div>
+          {addedMessage ? <p className="cart-feedback">{addedMessage}</p> : null}
           <div className="seller-panel">
             <BusinessBadge business={business} />
             <p>{business.description}</p>
@@ -64,7 +98,7 @@ export function ProductDetailsPage() {
           </Button>
         </div>
         <div className="product-grid product-grid--three">
-          {(related.length ? related : products.slice(0, 3)).map((item) => (
+          {(related.length ? related : marketplaceProducts.slice(0, 3)).map((item) => (
             <ProductCard key={item.id} product={item} businesses={businesses} compact />
           ))}
         </div>

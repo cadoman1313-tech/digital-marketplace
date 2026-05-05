@@ -2,10 +2,12 @@ import { ArrowRight, ShieldCheck, ShoppingBag, Store } from 'lucide-react';
 import { Button } from '../../components/ui/Button.jsx';
 import { ProductCard } from '../../components/marketplace/ProductCard.jsx';
 import { SectionHeader } from '../../components/ui/SectionHeader.jsx';
-import { businesses, products } from '../../data/mockData.js';
+import { businesses } from '../../data/mockData.js';
+import { useMarketplace } from '../../state/MarketplaceContext.jsx';
 
 export function LandingPage() {
-  const featuredProducts = products.filter((product) => product.featured).slice(0, 3);
+  const { marketplaceProducts } = useMarketplace();
+  const featuredProducts = marketplaceProducts.filter((product) => product.featured).slice(0, 3);
 
   return (
     <main>
@@ -22,7 +24,7 @@ export function LandingPage() {
             <Button to="/marketplace" icon={<ShoppingBag size={18} />}>
               Browse market
             </Button>
-            <Button to="/register" variant="secondary" icon={<Store size={18} />}>
+            <Button to="/seller/register" variant="secondary" icon={<Store size={18} />}>
               Open a storefront
             </Button>
           </div>

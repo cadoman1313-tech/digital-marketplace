@@ -1,4 +1,6 @@
 node_modules/
+frontend/dist/
+frontend/.edge-profile/
 .env
 uploads/
 *.log

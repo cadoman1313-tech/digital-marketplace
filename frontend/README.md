@@ -94,6 +94,8 @@ Deployment is handled by `.github/workflows/deploy-frontend.yml` from the reposi
 
 The GitHub Pages source should be set to **GitHub Actions** in the repository settings. The deployed frontend is static and uses mock/localStorage data only; no PHP, MySQL, or real payment provider is deployed.
 
+The production app uses React Router's `HashRouter` so refreshing nested routes on GitHub Pages does not request missing static files from the server. Deployed route URLs use the hash form, such as `/#/marketplace`, while the React route paths remain `/marketplace`, `/cart`, `/checkout`, and so on.
+
 ## Implemented Prototype Pages
 
 - Landing page

@@ -34,7 +34,7 @@ The product should feel like a real local commerce app: warm, clean, spacious, a
 ## Repository Structure
 
 ```text
-frontend/   React application structure and future UI code
+frontend/   React/Vite marketplace prototype and UI code
 backend/    PHP API structure, domain logic, and future routes
 database/   MySQL planning, migrations, seeds, and schema notes
 docs/       Product documentation and design system
@@ -56,4 +56,18 @@ docs/       Product documentation and design system
 
 ## Current Status
 
-This repository currently contains the project foundation only. The full app pages have not been built yet.
+This repository currently contains the project foundation plus a working React/Vite frontend prototype. The frontend uses mock data and localStorage only; the PHP/MySQL backend is not connected yet.
+
+## Frontend Deployment
+
+The React frontend can be deployed as a static app to GitHub Pages.
+
+- App folder: `frontend/`
+- Build output: `frontend/dist`
+- GitHub Pages base path: `/digital-marketplace/`
+- Expected Pages URL: `https://cadoman1313-tech.github.io/digital-marketplace/`
+- Workflow: `.github/workflows/deploy-frontend.yml`
+
+The workflow runs on pushes to `main`, installs dependencies inside `frontend/`, runs `npm ci`, builds with `npm run build`, and publishes only `frontend/dist` through GitHub Pages. It does not deploy the PHP backend or MySQL database planning files.
+
+In the repository settings, configure Pages to use **GitHub Actions** as the source.

@@ -82,6 +82,18 @@ Preview the production build:
 npm run preview
 ```
 
+## GitHub Pages Deployment
+
+This Vite app is configured with the GitHub Pages base path:
+
+```js
+base: '/digital-marketplace/'
+```
+
+Deployment is handled by `.github/workflows/deploy-frontend.yml` from the repository root. On pushes to `main`, GitHub Actions installs dependencies in `frontend/`, runs `npm ci`, builds with `npm run build`, and deploys `frontend/dist` to GitHub Pages.
+
+The GitHub Pages source should be set to **GitHub Actions** in the repository settings. The deployed frontend is static and uses mock/localStorage data only; no PHP, MySQL, or real payment provider is deployed.
+
 ## Implemented Prototype Pages
 
 - Landing page

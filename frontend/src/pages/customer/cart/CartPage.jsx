@@ -13,7 +13,7 @@ export function CartPage() {
     removeFromCart,
     updateCartQuantity,
   } = useMarketplace();
-  const delivery = cartItemCount > 0 ? 55 : 0;
+  const delivery = cartItemCount > 0 ? 45 : 0;
   const total = cartSubtotal + delivery;
 
   return (
@@ -22,7 +22,7 @@ export function CartPage() {
         <div>
           <span className="eyebrow">Cart</span>
           <h1>Your local order basket.</h1>
-          <p>Review selected products, adjust quantities, and keep shopping before checkout is connected.</p>
+          <p>Review selected products, adjust quantities, and keep shopping before the Botswana checkout demo.</p>
         </div>
       </section>
 

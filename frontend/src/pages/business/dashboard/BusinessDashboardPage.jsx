@@ -15,7 +15,7 @@ export function BusinessDashboardPage() {
     <DashboardShell>
       <div className="workspace-page">
         <SectionHeader
-          eyebrow="Golden Hour Bakery"
+          eyebrow="Golden Kalahari Bakery"
           title="Today at a glance"
           description="A calm summary of orders, stock, and actions that need attention."
           action={
@@ -27,7 +27,7 @@ export function BusinessDashboardPage() {
 
         <div className="metric-grid">
           <MetricCard label="Open orders" value={openOrders.length} detail="2 need action today" tone="blue" />
-          <MetricCard label="Revenue today" value={formatCurrency(1460)} detail="Across 9 orders" tone="green" />
+          <MetricCard label="Revenue today" value={formatCurrency(1460)} detail="Across 9 Botswana orders" tone="green" />
           <MetricCard label="Low stock" value="3" detail="Restock before Friday" tone="gold" />
           <MetricCard label="Store rating" value="4.8" detail="Based on 126 reviews" />
         </div>
@@ -39,7 +39,7 @@ export function BusinessDashboardPage() {
               <article key={order.id}>
                 <div>
                   <strong>{order.id}</strong>
-                  <span>{order.customer} - {order.fulfillment}</span>
+                  <span>{order.buyerName} - {order.fulfillment}</span>
                 </div>
                 <StatusPill status={order.status} />
                 <Button variant="ghost">Open</Button>

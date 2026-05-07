@@ -38,9 +38,9 @@ export function MarketplacePage() {
     <main className="page-shell marketplace-page">
       <section className="page-intro page-intro--market">
         <div>
-          <span className="eyebrow">Customer marketplace</span>
-          <h1>Shop local products from nearby businesses.</h1>
-          <p>Browse fresh produce, baked goods, homeware, flowers, and pantry finds from verified sellers.</p>
+          <span className="eyebrow">Botswana marketplace</span>
+          <h1>Shop products from trusted Botswana businesses.</h1>
+          <p>Browse fresh produce, baked goods, baskets, fashion, skincare, crafts, and tech accessories from verified local sellers.</p>
         </div>
         <form className="search-bar" onSubmit={(event) => event.preventDefault()}>
           <Search size={19} />
@@ -75,8 +75,8 @@ export function MarketplacePage() {
       <div className="market-layout">
         <section>
           <SectionHeader
-            title="Fresh on MarketLane"
-            description={`${visibleProducts.length} products from local sellers, filtered by category, search, and sort.`}
+            title="Made in Botswana on LocalMart"
+            description={`${visibleProducts.length} products from Botswana sellers, filtered by category, search, and sort.`}
             action={
               <Button
                 onClick={() => {
@@ -105,7 +105,7 @@ export function MarketplacePage() {
         </section>
 
         <aside className="market-aside">
-          <h2>Trusted local shops</h2>
+          <h2>Trusted Botswana shops</h2>
           <div className="stack">
             {topBusinesses.map((business) => (
               <BusinessBadge key={business.id} business={business} />

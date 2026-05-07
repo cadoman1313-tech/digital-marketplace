@@ -14,7 +14,7 @@ import { formatCurrency } from '../../../utils/formatters.js';
 const blankProduct = {
   id: '',
   name: '',
-  category: 'Bakery',
+  category: 'Food & Snacks',
   price: '',
   stock: '',
   description: '',
@@ -195,7 +195,7 @@ export function SellerDashboardPage() {
               label="Product name"
               name="name"
               onChange={handleProductChange}
-              placeholder="Honey oat loaf"
+              placeholder="Phaphatha breakfast pack"
               required
               value={productDraft.name}
             />
@@ -204,7 +204,16 @@ export function SellerDashboardPage() {
                 label="Category"
                 name="category"
                 onChange={handleProductChange}
-                options={['Bakery', 'Fresh Produce', 'Homeware', 'Florist', 'Pantry']}
+                options={[
+                  'Fresh Produce',
+                  'Handmade Crafts',
+                  'Clothing',
+                  'Beauty & Skincare',
+                  'Food & Snacks',
+                  'Electronics Accessories',
+                  'Home Goods',
+                  'Art & Decor',
+                ]}
                 value={productDraft.category}
               />
               <TextField

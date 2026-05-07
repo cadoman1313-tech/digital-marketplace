@@ -4,12 +4,13 @@ import { getProduct } from '../utils/formatters.js';
 
 const MarketplaceContext = createContext(null);
 
-const CART_STORAGE_KEY = 'marketlane-cart';
-const ROLE_STORAGE_KEY = 'marketlane-role';
-const SELLER_PROFILE_STORAGE_KEY = 'marketlane-seller-profile';
-const SELLER_PRODUCTS_STORAGE_KEY = 'marketlane-seller-products';
-const ORDERS_STORAGE_KEY = 'marketlane-orders';
-const LAST_ORDER_STORAGE_KEY = 'marketlane-last-order';
+const CART_STORAGE_KEY = 'localmart-cart';
+const ROLE_STORAGE_KEY = 'localmart-role';
+const SELLER_PROFILE_STORAGE_KEY = 'localmart-seller-profile';
+const SELLER_PRODUCTS_STORAGE_KEY = 'localmart-seller-products';
+const ORDERS_STORAGE_KEY = 'localmart-orders';
+const LAST_ORDER_STORAGE_KEY = 'localmart-last-order';
+const DELIVERY_FEE = 45;
 
 const sellerBusiness = businesses.find((business) => business.id === 'golden-hour-bakery');
 
@@ -172,7 +173,7 @@ export function MarketplaceProvider({ children }) {
       placedAt: 'Just now',
       fulfillment,
       paymentMethod,
-      total: cartSubtotal + (fulfillment === 'Delivery' ? 55 : 0),
+      total: cartSubtotal + (fulfillment === 'Delivery' ? DELIVERY_FEE : 0),
       items: cartItems.map((item) => ({
         productId: item.productId,
         productName: item.product.name,

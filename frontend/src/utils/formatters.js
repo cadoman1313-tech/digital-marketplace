@@ -1,9 +1,9 @@
 export function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-ZA', {
-    style: 'currency',
-    currency: 'ZAR',
+  const numericAmount = Number(amount) || 0;
+
+  return `P ${new Intl.NumberFormat('en-BW', {
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(numericAmount)}`;
 }
 
 export function getBusiness(businesses, businessId) {

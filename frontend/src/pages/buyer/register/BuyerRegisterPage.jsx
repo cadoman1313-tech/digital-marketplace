@@ -30,7 +30,7 @@ export function BuyerRegisterPage() {
         <form className="form-stack" onSubmit={handleSubmit}>
           <TextField label="Full name" name="name" placeholder="Your name" />
           <TextField label="Email address" name="email" type="email" placeholder="you@example.com" />
-          <TextField label="Preferred area" name="location" placeholder="Rosebank, Johannesburg" />
+          <TextField label="Preferred area" name="location" placeholder="Gaborone, Tlokweng, or Maun" />
           <TextField label="Password" name="password" type="password" placeholder="Create password" />
           <Button icon={<ShoppingBag size={18} />} type="submit">
             Create buyer account

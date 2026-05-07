@@ -1,8 +1,8 @@
-# Digital Marketplace for Local Small Businesses
+# LocalMart Digital Marketplace
 
-A polished e-commerce marketplace for local small businesses to showcase products, receive orders, and manage storefront operations from one trustworthy platform.
+LocalMart is a polished Botswana-based e-commerce marketplace for local small businesses to showcase products, receive orders, and manage storefront operations from one trustworthy platform.
 
-The product should feel like a real local commerce app: warm, clean, spacious, and practical. The interface direction favors rich natural green, cream/off-white surfaces, charcoal text, soft gold highlights, light sage support tones, and small blue accents for focused actions or states.
+The product should feel like a real Botswana local commerce app: warm, clean, spacious, and practical. The interface direction favors rich natural green, cream/off-white surfaces, charcoal text, soft gold highlights, light sage support tones, and small blue accents for focused actions or states.
 
 ## Project Goals
 

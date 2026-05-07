@@ -29,7 +29,7 @@ export function LoginPage() {
           <Button type="submit">Sign in</Button>
         </form>
         <p className="auth-panel__footer">
-          New to MarketLane? <Link to="/register">Create an account</Link>
+          New to LocalMart? <Link to="/register">Create an account</Link>
         </p>
       </section>
     </main>

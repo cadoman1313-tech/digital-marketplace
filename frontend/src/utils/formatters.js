@@ -1,8 +1,9 @@
 export function formatCurrency(amount) {
   const numericAmount = Number(amount) || 0;
 
-  return `P ${new Intl.NumberFormat('en-BW', {
-    maximumFractionDigits: 0,
+  return `P${new Intl.NumberFormat('en-BW', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(numericAmount)}`;
 }
 

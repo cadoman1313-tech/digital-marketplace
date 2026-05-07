@@ -136,6 +136,7 @@ The production app uses React Router's `HashRouter` so refreshing nested routes 
 - Seller profile and seller product stock are managed locally with localStorage.
 - Seller dashboard supports business bio, contact details, image placeholder or URL, product add/edit/delete, stock levels, and seller order rows.
 - Buyer dashboard shows profile summary, recent orders, saved products, and a continue shopping action.
+- Prices display in Botswana Pula using the `P` symbol, for example `P250.00`; use `BWP` when a currency code is required.
 
 ## Main Routes
 

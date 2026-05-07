@@ -11,8 +11,9 @@ const SELLER_PRODUCTS_STORAGE_KEY = 'localmart-seller-products';
 const ORDERS_STORAGE_KEY = 'localmart-orders';
 const LAST_ORDER_STORAGE_KEY = 'localmart-last-order';
 const DELIVERY_FEE = 45;
+const CURRENT_SELLER_ID = 'golden-hour-bakery';
 
-const sellerBusiness = businesses.find((business) => business.id === 'golden-hour-bakery');
+const sellerBusiness = businesses.find((business) => business.id === CURRENT_SELLER_ID);
 
 const defaultSellerProfile = {
   businessName: sellerBusiness.name,
@@ -25,12 +26,46 @@ const defaultSellerProfile = {
   image: '',
 };
 
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function normalizeSellerProduct(productInput, existingProduct = null) {
+  const productName = (productInput.productName || productInput.name || '').trim();
+  const stock = Math.max(0, Math.floor(Number(productInput.stock || productInput.quantity || 0)));
+  const price = Math.max(0, Number(productInput.price || 0));
+  const availabilityStatus = stock > 0 ? 'Available' : 'Out of stock';
+  const id = productInput.id || `${slugify(productName || 'seller-product')}-${Date.now()}`;
+  const createdAt = productInput.createdAt || existingProduct?.createdAt || new Date().toISOString().slice(0, 10);
+
+  return {
+    id,
+    sellerId: CURRENT_SELLER_ID,
+    businessId: CURRENT_SELLER_ID,
+    sellerName: sellerBusiness.name,
+    productName,
+    name: productName,
+    category: productInput.category || 'Food & Snacks',
+    price,
+    stock,
+    description: (productInput.description || '').trim(),
+    image: (productInput.image || '').trim(),
+    availabilityStatus,
+    availability: availabilityStatus,
+    createdAt,
+    rating: productInput.rating || existingProduct?.rating || 4.8,
+    featured: productInput.featured || false,
+    tags: [productInput.category || 'Food & Snacks', availabilityStatus, 'Seller managed'],
+  };
+}
+
 const defaultSellerProducts = products
   .filter((product) => product.businessId === sellerBusiness.id)
-  .map((product) => ({
-    ...product,
-    availability: product.stock > 0 ? 'Available' : 'Out of stock',
-  }));
+  .map((product) => normalizeSellerProduct(product, product));
 
 function readStorage(key, fallback) {
   try {
@@ -61,7 +96,9 @@ export function MarketplaceProvider({ children }) {
     readStorage(SELLER_PROFILE_STORAGE_KEY, defaultSellerProfile),
   );
   const [sellerProducts, setSellerProducts] = useState(() =>
-    readStorage(SELLER_PRODUCTS_STORAGE_KEY, defaultSellerProducts),
+    readStorage(SELLER_PRODUCTS_STORAGE_KEY, defaultSellerProducts).map((product) =>
+      normalizeSellerProduct(product, product),
+    ),
   );
   const [orders, setOrders] = useState(() => readStorage(ORDERS_STORAGE_KEY, demoOrders));
   const [lastOrder, setLastOrder] = useState(() => readStorage(LAST_ORDER_STORAGE_KEY, null));
@@ -194,30 +231,21 @@ export function MarketplaceProvider({ children }) {
   };
 
   const saveSellerProduct = (productInput) => {
+    const savedProduct = normalizeSellerProduct(productInput);
+
     setSellerProducts((current) => {
       if (productInput.id) {
-        return current.map((product) =>
-          product.id === productInput.id ? { ...product, ...productInput } : product,
-        );
+        return current.map((product) => {
+          if (product.id !== productInput.id) return product;
+
+          return normalizeSellerProduct({ ...product, ...productInput }, product);
+        });
       }
 
-      const id = `${productInput.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`;
-
-      return [
-        {
-          id,
-          businessId: sellerBusiness.id,
-          sellerId: sellerBusiness.id,
-          sellerName: sellerBusiness.name,
-          rating: 4.8,
-          featured: false,
-          tags: ['Seller managed'],
-          availabilityStatus: productInput.availability || 'Available',
-          ...productInput,
-        },
-        ...current,
-      ];
+      return [savedProduct, ...current];
     });
+
+    return savedProduct;
   };
 
   const deleteSellerProduct = (productId) => {

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextField } from '../../components/forms/TextField.jsx';
 import { Button } from '../../components/ui/Button.jsx';
 import { EmptyState } from '../../components/ui/EmptyState.jsx';
-import { businesses } from '../../data/mockData.js';
+import { botswanaAreas, businesses } from '../../data/mockData.js';
 import { useMarketplace } from '../../state/MarketplaceContext.jsx';
 import { formatCurrency } from '../../utils/formatters.js';
 
@@ -21,7 +21,7 @@ export function CheckoutPage() {
   const [fulfillment, setFulfillment] = useState('Delivery');
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [errors, setErrors] = useState({});
-  const deliveryFee = fulfillment === 'Delivery' && cartItemCount > 0 ? 55 : 0;
+  const deliveryFee = fulfillment === 'Delivery' && cartItemCount > 0 ? 45 : 0;
   const total = cartSubtotal + deliveryFee;
 
   const groupedItems = useMemo(
@@ -119,8 +119,8 @@ export function CheckoutPage() {
           <div className="profile-form">
             <h2>Buyer details</h2>
             <div className="form-grid">
-              <TextField label="Full name" name="buyerName" placeholder="Nomsa Dlamini" />
-              <TextField label="Phone" name="phone" placeholder="+27 72 555 0148" />
+              <TextField label="Full name" name="buyerName" placeholder="Masego Kgosi" />
+              <TextField label="Phone" name="phone" placeholder="+267 72 555 148" />
             </div>
             <TextField label="Email" name="email" type="email" placeholder="buyer@example.com" />
             <div className="form-error-row">
@@ -143,19 +143,21 @@ export function CheckoutPage() {
                   />
                   <span>{option}</span>
                   <small>
-                    {option === 'Delivery' ? 'Use a demo address and delivery estimate.' : 'Collect from each seller.'}
+                    {option === 'Delivery'
+                      ? 'Use a Botswana demo address and delivery estimate.'
+                      : 'Collect from each seller where pickup is available.'}
                   </small>
                 </label>
               ))}
             </div>
             {fulfillment === 'Delivery' ? (
               <div className="delivery-fields">
-                <TextField label="Address line 1" name="addressLine1" placeholder="18 Market Lane" />
+                <TextField label="Address line 1" name="addressLine1" placeholder="Plot 184, Extension 10" />
                 <div className="form-grid">
-                  <TextField label="City" name="city" placeholder="Johannesburg" />
-                  <TextField label="Postal code" name="postalCode" placeholder="2196" />
+                  <TextField label="Town or city" name="city" options={botswanaAreas} />
+                  <TextField label="Area or ward" name="postalCode" placeholder="Phase 2, Block 8, or Tlokweng" />
                 </div>
-                <TextField label="Delivery notes" name="notes" placeholder="Gate code, landmark, or timing note" />
+                <TextField label="Delivery notes" name="notes" placeholder="Landmark, ward, pickup point, or timing note" />
               </div>
             ) : null}
           </div>
@@ -183,7 +185,7 @@ export function CheckoutPage() {
             </div>
             {paymentMethod === 'card' ? (
               <div className="delivery-fields">
-                <TextField label="Name on card" name="cardName" placeholder="N Dlamini" />
+                <TextField label="Name on card" name="cardName" placeholder="M Kgosi" />
                 <TextField label="Card number placeholder" name="cardNumber" placeholder="4242 4242 4242 4242" />
                 <div className="form-grid">
                   <TextField label="Expiry date" name="expiry" placeholder="08/28" />
@@ -193,11 +195,11 @@ export function CheckoutPage() {
             ) : null}
             {paymentMethod === 'mobile' ? (
               <div className="delivery-fields">
-                <TextField label="Mobile number" name="mobileNumber" placeholder="+27 72 555 0148" />
+                <TextField label="Mobile number" name="mobileNumber" placeholder="+267 72 555 148" />
                 <TextField
                   label="Demo provider"
                   name="mobileProvider"
-                  options={['Local Mobile Wallet Demo', 'Community Money Demo', 'TownPay Demo']}
+                  options={['PulaPay Demo', 'Local Mobile Wallet Demo', 'Town Wallet Demo']}
                 />
               </div>
             ) : null}

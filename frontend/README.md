@@ -1,6 +1,6 @@
-# Digital Marketplace Frontend
+# LocalMart Frontend
 
-Working React prototype for the Digital Marketplace project. The app uses local demo data and localStorage only; it does not connect to the PHP backend yet.
+Working React prototype for LocalMart, a Botswana-based marketplace for local small businesses. The app uses Botswana mock data and localStorage only; it does not connect to the PHP backend yet.
 
 ## Stack
 
@@ -129,13 +129,14 @@ The production app uses React Router's `HashRouter` so refreshing nested routes 
 - Cart quantity controls support increase, decrease, remove, clear cart, and empty state.
 - Cart state persists in localStorage after refresh.
 - Marketplace browsing supports category filters, product/seller/category search, and sorting by newest, price, or rating.
-- Expanded mock catalog includes 48 products across Fresh Produce, Handmade Crafts, Clothing, Beauty & Skincare, Food & Snacks, Electronics Accessories, Home Goods, and Art & Decor.
-- Seller storefront pages include profile details, cover area, owner, contact placeholders, operating hours, rating, completed orders, fulfillment options, and seller product grids.
+- Expanded mock catalog includes 48 Botswana-localized products across Fresh Produce, Handmade Crafts, Clothing, Beauty & Skincare, Food & Snacks, Electronics Accessories, Home Goods, and Art & Decor.
+- Seller storefront pages include Botswana business locations, profile details, cover area, owner, contact placeholders, operating hours, rating, completed orders, fulfillment options, and seller product grids.
 - Frontend-only checkout supports delivery/pickup, buyer details, demo card fields, demo mobile money fields, cash on delivery, and cash on pickup.
 - Placing an order creates a mock localStorage order, clears the cart, and routes to an order success screen.
 - Seller profile and seller product stock are managed locally with localStorage.
 - Seller dashboard supports business bio, contact details, image placeholder or URL, product add/edit/delete, stock levels, and seller order rows.
 - Buyer dashboard shows profile summary, recent orders, saved products, and a continue shopping action.
+- Prices display in Botswana Pula using the `P` symbol, for example `P250.00`; use `BWP` when a currency code is required.
 
 ## Main Routes
 

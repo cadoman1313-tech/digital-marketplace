@@ -44,11 +44,11 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <NavLink className="brand" to="/" aria-label="MarketLane home">
+        <NavLink className="brand" to="/" aria-label="LocalMart home">
           <span className="brand__mark" aria-hidden="true">
             ML
           </span>
-          <span>MarketLane</span>
+          <span>LocalMart</span>
         </NavLink>
 
         <nav className="site-nav" aria-label="Primary navigation">

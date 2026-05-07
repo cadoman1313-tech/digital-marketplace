@@ -14,11 +14,11 @@ export function LandingPage() {
       <section className="landing-hero">
         <div className="landing-hero__overlay" />
         <div className="page-shell landing-hero__content">
-          <span className="eyebrow">Local commerce, made easier</span>
-          <h1>MarketLane</h1>
+          <span className="eyebrow">Botswana local commerce, made easier</span>
+          <h1>LocalMart</h1>
           <p>
-            A warm digital marketplace where nearby businesses can sell beautifully and
-            customers can shop with confidence.
+            A warm digital marketplace where Botswana businesses can sell beautifully
+            and customers can shop from trusted local sellers with confidence.
           </p>
           <div className="landing-hero__actions">
             <Button to="/marketplace" icon={<ShoppingBag size={18} />}>
@@ -29,9 +29,9 @@ export function LandingPage() {
             </Button>
           </div>
           <div className="landing-hero__facts" aria-label="Marketplace highlights">
-            <span>38 active makers</span>
-            <span>Same-day pickup</span>
-            <span>Verified local sellers</span>
+            <span>38 Botswana sellers</span>
+            <span>Gaborone to Maun pickup</span>
+            <span>Made in Botswana finds</span>
           </div>
         </div>
       </section>
@@ -39,8 +39,8 @@ export function LandingPage() {
       <section className="page-shell section">
         <SectionHeader
           eyebrow="Featured nearby"
-          title="Fresh finds from trusted local shops"
-          description="A first glimpse at the marketplace experience customers will use to discover real products from real businesses."
+          title="Fresh finds from trusted Botswana shops"
+          description="A first glimpse at the marketplace experience customers will use to discover real products from Gaborone, Maun, Kasane, Palapye, and beyond."
           action={
             <Button to="/marketplace" variant="ghost" icon={<ArrowRight size={18} />}>
               View all
@@ -59,7 +59,7 @@ export function LandingPage() {
           <article>
             <ShieldCheck size={22} />
             <h3>Buyer confidence</h3>
-            <p>Verified storefronts, clear order statuses, and local seller context on every purchase.</p>
+            <p>Verified storefronts, clear order statuses, and Botswana seller context on every purchase.</p>
           </article>
           <article>
             <Store size={22} />
@@ -69,7 +69,7 @@ export function LandingPage() {
           <article>
             <ShoppingBag size={22} />
             <h3>Built for browsing</h3>
-            <p>Image-led products, simple filters, and warm visual details that feel like a real marketplace.</p>
+            <p>Image-led products, simple filters, and warm visual details for a real Botswana marketplace.</p>
           </article>
         </div>
       </section>

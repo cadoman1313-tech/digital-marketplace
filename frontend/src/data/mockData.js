@@ -6,34 +6,50 @@ export { sellers as businesses, sellers, sellerById } from './mockSellers.js';
 export const sellerAccounts = [
   {
     id: 'seller-golden-hour',
-    name: 'Theo Jacobs',
-    email: 'theo@goldenhour.local',
+    name: 'Thato Motsumi',
+    email: 'thato@goldenkalahari.local',
     businessId: 'golden-hour-bakery',
     role: 'Owner',
   },
 ];
 
+export const botswanaAreas = [
+  'Gaborone',
+  'Francistown',
+  'Maun',
+  'Kasane',
+  'Palapye',
+  'Lobatse',
+  'Molepolole',
+  'Serowe',
+  'Selebi-Phikwe',
+  'Kanye',
+  'Mochudi',
+  'Jwaneng',
+  'Tlokweng',
+];
+
 export const adminApprovals = [
   {
     id: 'BA-219',
-    business: 'Northside Coffee Co.',
-    owner: 'Sipho Khumalo',
+    business: 'Mochudi Coffee Cart',
+    owner: 'Gaone Mosinyi',
     category: 'Food & Snacks',
     submitted: '2 hours ago',
     status: 'pending',
   },
   {
     id: 'BA-216',
-    business: 'The Soap Room',
-    owner: 'Priya Singh',
+    business: 'Kalahari Soap Room',
+    owner: 'Tebogo Phiri',
     category: 'Beauty & Skincare',
     submitted: 'Yesterday',
     status: 'pending',
   },
   {
     id: 'BA-214',
-    business: 'Urban Seedlings',
-    owner: 'Kate Botha',
+    business: 'Palapye Seedlings',
+    owner: 'Keabetswe Mmereki',
     category: 'Fresh Produce',
     submitted: 'May 1',
     status: 'reviewing',

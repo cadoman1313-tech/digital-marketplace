@@ -28,7 +28,7 @@ export function BuyerLoginPage() {
       <section className="auth-panel" aria-labelledby="buyer-login-title">
         <h2 id="buyer-login-title">Buyer Login</h2>
         <form className="form-stack" onSubmit={handleSubmit}>
-          <TextField label="Email address" name="email" type="email" defaultValue="nomsa@example.com" />
+          <TextField label="Email address" name="email" type="email" defaultValue="masego@example.com" />
           <TextField label="Password" name="password" type="password" placeholder="Any demo password" />
           <Button icon={<ShoppingBag size={18} />} type="submit">
             Log in as buyer

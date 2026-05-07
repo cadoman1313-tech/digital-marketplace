@@ -39,11 +39,11 @@ export function SellerRegisterPage() {
         <h2 id="seller-register-title">Seller Register</h2>
         <form className="form-stack" onSubmit={handleSubmit}>
           <TextField label="Owner name" name="owner" placeholder="Your name" />
-          <TextField label="Business name" name="businessName" placeholder="Market shop name" />
-          <TextField label="Category" name="category" placeholder="Bakery, florist, homeware" />
-          <TextField label="Contact email" name="email" type="email" placeholder="orders@example.com" />
-          <TextField label="Phone" name="phone" placeholder="+27 ..." />
-          <TextField label="Business bio" name="bio" textarea placeholder="Tell customers what you make or sell" />
+          <TextField label="Business name" name="businessName" placeholder="Gaborone basket shop" />
+          <TextField label="Category" name="category" placeholder="Fresh produce, bakery, crafts, skincare" />
+          <TextField label="Contact email" name="email" type="email" placeholder="orders@example.co.bw" />
+          <TextField label="Phone" name="phone" placeholder="+267 72 555 148" />
+          <TextField label="Business bio" name="bio" textarea placeholder="Tell Botswana customers what you make, grow, or sell" />
           <Button icon={<Store size={18} />} type="submit">
             Create seller profile
           </Button>

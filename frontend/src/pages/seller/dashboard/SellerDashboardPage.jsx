@@ -19,12 +19,10 @@ const blankProduct = {
   stock: '',
   description: '',
   image: '',
-  availability: 'Available',
 };
 
 function getStockStatus(product) {
-  if (product.availability === 'Paused') return 'draft';
-  if (product.availability === 'Out of stock' || Number(product.stock) <= 0) return 'out';
+  if (product.availabilityStatus === 'Out of stock' || Number(product.stock) <= 0) return 'out';
   if (Number(product.stock) <= 5) return 'low';
   return 'active';
 }
@@ -41,9 +39,10 @@ export function SellerDashboardPage() {
   const [profileDraft, setProfileDraft] = useState(sellerProfile);
   const [productDraft, setProductDraft] = useState(blankProduct);
   const [profileSaved, setProfileSaved] = useState(false);
+  const [productMessage, setProductMessage] = useState('');
 
   const lowStockCount = sellerProducts.filter((product) => Number(product.stock) <= 5).length;
-  const activeProducts = sellerProducts.filter((product) => product.availability === 'Available').length;
+  const activeProducts = sellerProducts.filter((product) => product.availabilityStatus === 'Available').length;
   const totalStock = sellerProducts.reduce((sum, product) => sum + Number(product.stock || 0), 0);
   const sellerOrders = orders.filter(
     (order) =>
@@ -69,13 +68,19 @@ export function SellerDashboardPage() {
 
   const handleProductSubmit = (event) => {
     event.preventDefault();
-    saveSellerProduct({
+    const savedProduct = saveSellerProduct({
       ...productDraft,
       price: Number(productDraft.price),
       stock: Number(productDraft.stock),
       image: productDraft.image.trim(),
       description: productDraft.description.trim(),
     });
+
+    setProductMessage(
+      productDraft.id
+        ? `${savedProduct.productName} updated and saved locally.`
+        : `${savedProduct.productName} added to your LocalMart storefront.`,
+    );
     setProductDraft(blankProduct);
   };
 
@@ -88,8 +93,15 @@ export function SellerDashboardPage() {
       stock: product.stock,
       description: product.description,
       image: product.image || '',
-      availability: product.availability || 'Available',
+      createdAt: product.createdAt,
     });
+    setProductMessage(`Editing ${product.productName || product.name}.`);
+  };
+
+  const handleDeleteProduct = (product) => {
+    deleteSellerProduct(product.id);
+    if (productDraft.id === product.id) setProductDraft(blankProduct);
+    setProductMessage(`${product.productName || product.name} deleted from your local stock.`);
   };
 
   return (
@@ -217,11 +229,11 @@ export function SellerDashboardPage() {
                 value={productDraft.category}
               />
               <TextField
-                label="Availability status"
-                name="availability"
-                onChange={handleProductChange}
-                options={['Available', 'Paused', 'Out of stock']}
-                value={productDraft.availability}
+                help="Calculated from stock: more than 0 is in stock, 0 is out of stock."
+                label="Availability"
+                name="availabilityPreview"
+                readOnly
+                value={Number(productDraft.stock || 0) > 0 ? 'In stock' : 'Out of stock'}
               />
             </div>
             <div className="form-grid">
@@ -271,6 +283,7 @@ export function SellerDashboardPage() {
                 </Button>
               ) : null}
             </div>
+            {productMessage ? <p className="cart-feedback">{productMessage}</p> : null}
           </form>
 
           <section className="table-panel">
@@ -308,7 +321,7 @@ export function SellerDashboardPage() {
                         </Button>
                         <Button
                           icon={<Trash2 size={15} />}
-                          onClick={() => deleteSellerProduct(product.id)}
+                          onClick={() => handleDeleteProduct(product)}
                           variant="ghost"
                         >
                           Delete

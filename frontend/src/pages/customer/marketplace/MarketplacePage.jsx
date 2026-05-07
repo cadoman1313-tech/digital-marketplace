@@ -20,11 +20,12 @@ export function MarketplacePage() {
 
     return marketplaceProducts
       .filter((product) => {
+        const isAvailable = product.availabilityStatus === 'Available' && Number(product.stock) > 0;
         const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
         const seller = businesses.find((business) => business.id === product.sellerId);
         const searchable = `${product.name} ${product.category} ${seller?.name || product.sellerName}`.toLowerCase();
 
-        return matchesCategory && (!normalizedSearch || searchable.includes(normalizedSearch));
+        return isAvailable && matchesCategory && (!normalizedSearch || searchable.includes(normalizedSearch));
       })
       .sort((a, b) => {
         if (sortBy === 'price-low') return a.price - b.price;
